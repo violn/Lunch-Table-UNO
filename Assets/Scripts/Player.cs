@@ -1,0 +1,16 @@
+using System.Collections.Generic;
+
+public class Player
+{
+    public List<Card> Hand { get; }
+    public string Name { get; }
+    public bool CPU = false;
+    public bool Skipped = false;
+
+    public Player(string name, bool cpu = false, List<Card> hand = null)
+    {
+        Name = name;
+        Hand = hand ?? (new List<Card>());
+        CPU = cpu;
+    }
+}
