@@ -104,7 +104,7 @@ GameObject:
   - component: {fileID: 1636633052179211846}
   - component: {fileID: 4020172237874263077}
   m_Layer: 0
-  m_Name: Chat_Logs
+  m_Name: Chat Logs
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

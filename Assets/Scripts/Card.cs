@@ -33,18 +33,18 @@ public class Card
 
     public static bool operator ==(Card left, Card right)
     {
-        return left.Value == right.Value && left.Color == right.Color;
+        return left.Value == right.Value || left.Color == right.Color;
     }
 
     public static bool operator !=(Card left, Card right)
     {
-        return left.Value != right.Value || left.Color != right.Color;
+        return left.Value != right.Value && left.Color != right.Color;
     }
 
     public override bool Equals(object obj)
     {
         Card card = obj as Card;
-        return card.Value == Value || card.Color == Color;
+        return card.Value == Value && card.Color == Color;
     }
 
     public override int GetHashCode()

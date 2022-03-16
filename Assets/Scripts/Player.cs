@@ -1,4 +1,6 @@
 using System.Collections.Generic;
+using System.Linq;
+using UnityEngine;
 
 public class Player
 {
@@ -12,5 +14,10 @@ public class Player
         Name = name;
         Hand = hand ?? (new List<Card>());
         CPU = cpu;
+    }
+
+    public override string ToString()
+    {
+        return Name;
     }
 }

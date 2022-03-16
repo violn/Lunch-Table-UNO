@@ -66,6 +66,7 @@ public class Game : MonoBehaviour
                     player.Hand.Add(card);
                     cardObject.GetComponent<CardAppearance>().CardValues = card;
                     cardObject.transform.SetParent(HandObject.transform);
+                    LogAction.LogDraw(card);
                 }
             }
 
@@ -93,7 +94,7 @@ public class Game : MonoBehaviour
     {
         if (PlayerQueue1.Peek().CPU)
         {
-            foreach (var card in PlayerQueue1.Peek().Hand.Where(card => card.Equals(TopCard.GetComponent<CardAppearance>().CardValues)))
+            foreach (var card in PlayerQueue1.Peek().Hand.Where(card => card == TopCard.GetComponent<CardAppearance>().CardValues))
             {
                 TopCard.GetComponent<CardAppearance>().CardValues = card;
                 DiscardPile.Add(TopCard.GetComponent<CardAppearance>().CardValues);
@@ -106,7 +107,7 @@ public class Game : MonoBehaviour
             Card drawnCard = DrawDeck.Pop();
             LogAction.LogDraw(PlayerQueue1.Peek());
 
-            if (!drawnCard.Equals(TopCard.GetComponent<CardAppearance>().CardValues))
+            if (drawnCard != TopCard.GetComponent<CardAppearance>().CardValues)
             {
                 PlayerQueue1.Peek().Hand.Add(drawnCard);
             }

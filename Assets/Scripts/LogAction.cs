@@ -3,25 +3,25 @@ using UnityEngine.UI;
 
 public class LogAction : MonoBehaviour
 {
-    static GameObject Logger;
+    static GameObject s_logger;
 
-    void Start()
+    void Awake()
     {
-        Logger = gameObject;
+        s_logger = gameObject;
     }
 
     public static void LogPlay(Player player, Card card)
     {
-        Logger.GetComponent<Text>().text += $"{player.Name} played a {card}.\n";
+        s_logger.GetComponent<Text>().text += $"{player.Name} played a {card}.\n";
     }
 
     public static void LogDraw(Player player)
     {
-        Logger.GetComponent<Text>().text += $"{player.Name} drew a card.\n";
+        s_logger.GetComponent<Text>().text += $"{player.Name} drew a card.\n";
     }
 
     public static void LogDraw(Card card)
     {
-        Logger.GetComponent<Text>().text += $"You drew a {card}.\n";
+        s_logger.GetComponent<Text>().text += $"You drew a {card}.\n";
     }
 }

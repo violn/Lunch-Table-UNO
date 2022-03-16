@@ -22,15 +22,22 @@ public class DrawButton : MonoBehaviour
     {
         player.Hand.Add(card);
         cardObject.GetComponent<CardAppearance>().CardValues = card;
-        cardObject.transform.SetParent(playerObject.transform);
-        card.GameObject = cardObject;
         player.Skipped = skipTurn;
+
+        if (StackHolder.Stacked)
+        {
+            Stack.AddToStack(card);
+            return;
+        }
 
         if (player.Hand.Count > 7)
         {
-            StackButton.CreateStacks(player);
+            Stack.CreateStacks(player);
             return;
         }
+
+        cardObject.transform.SetParent(playerObject.transform);
+        card.GameObject = cardObject;
     }
 
     public static void AddCard(Player player, Card card, bool skipTurn = false)
