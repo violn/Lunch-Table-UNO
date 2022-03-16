@@ -7,7 +7,7 @@ using Random = System.Random;
 public class Game : MonoBehaviour
 {
     static readonly Random s_ran = new Random();
-    static readonly List<Card> s_shuffleDeck = new List<Card>();
+    static List<Card> s_shuffleDeck = new List<Card>();
     public static Queue<Player> PlayerQueue1 = new Queue<Player>();
     public static Queue<Player> PlayerQueue2 = new Queue<Player>();
     public static Stack<Card> DrawDeck = new Stack<Card>();
@@ -15,11 +15,14 @@ public class Game : MonoBehaviour
     public static GameObject TopCard;
     public static GameObject SCardButtonPrefab;
     public static GameObject SHandObject;
+    public static GameObject SWinScreenObject;
     public static bool LocalPlayerTurn;
+    public static bool GameEnded;
     public GameObject CardButtonPrefab;
     public GameObject DiscardObject;
     public GameObject CardPrefab;
     public GameObject HandObject;
+    public GameObject WinScreenObject;
 
     void Awake()
     {
@@ -28,6 +31,7 @@ public class Game : MonoBehaviour
         StackHolder.HolderObject.SetActive(false);
         SCardButtonPrefab = CardButtonPrefab;
         SHandObject = HandObject;
+        SWinScreenObject = WinScreenObject;
     }
 
     void Start()
@@ -87,7 +91,10 @@ public class Game : MonoBehaviour
 
     void Update()
     {
-        PlayCPU();
+        if (!GameEnded)
+        {
+            PlayCPU();
+        }
     }
 
     static void PlayCPU()
@@ -100,12 +107,15 @@ public class Game : MonoBehaviour
                 DiscardPile.Add(TopCard.GetComponent<CardAppearance>().CardValues);
                 PlayerQueue1.Peek().Hand.Remove(card);
                 LogAction.LogPlay(PlayerQueue1.Peek(), card);
+                DeclareWinner(PlayerQueue1.Peek());
                 GoNextTurn();
                 return;
             }
 
             Card drawnCard = DrawDeck.Pop();
             LogAction.LogDraw(PlayerQueue1.Peek());
+            ReShuffle();
+
 
             if (drawnCard != TopCard.GetComponent<CardAppearance>().CardValues)
             {
@@ -117,6 +127,7 @@ public class Game : MonoBehaviour
                 TopCard.GetComponent<CardAppearance>().CardValues = drawnCard;
                 DiscardPile.Add(TopCard.GetComponent<CardAppearance>().CardValues);
                 LogAction.LogPlay(PlayerQueue1.Peek(), drawnCard);
+                DeclareWinner(PlayerQueue1.Peek());
             }
 
             GoNextTurn();
@@ -143,6 +154,26 @@ public class Game : MonoBehaviour
             {
                 PlayerQueue1.Enqueue(PlayerQueue2.Dequeue());
             }
+        }
+    }
+
+    public static void ReShuffle()
+    {
+        if (DrawDeck.Count == 0)
+        {
+            s_shuffleDeck = DiscardPile;
+            CreateDrawDeck();
+            LogAction.LogReshuffle();
+        }
+    }
+
+    public static void DeclareWinner(Player player)
+    {
+        if (player.Hand.Count == 0)
+        {
+            GameEnded = true;
+            SWinScreenObject.SetActive(true);
+            LogAction.LogWinner(player);
         }
     }
 }

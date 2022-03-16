@@ -5,7 +5,7 @@ public class CardButton : MonoBehaviour
     public void CardOnClick()
     {
         Card card = gameObject.GetComponent<CardAppearance>().CardValues;
-        if (!Game.PlayerQueue1.Peek().CPU && Game.TopCard.GetComponent<CardAppearance>().CardValues == card)
+        if (!Game.PlayerQueue1.Peek().CPU && Game.TopCard.GetComponent<CardAppearance>().CardValues == card && !Game.GameEnded)
         {
             Game.TopCard.GetComponent<CardAppearance>().CardValues = card;
             Game.PlayerQueue1.Peek().Hand.Remove(card);
@@ -20,6 +20,7 @@ public class CardButton : MonoBehaviour
             StackHolder.UnDisplayStack(Game.PlayerQueue1.Peek().Hand.Count <= 7 && StackHolder.Stacked);
             Destroy(gameObject);
             LogAction.LogPlay(Game.PlayerQueue1.Peek(), card);
+            Game.DeclareWinner(Game.PlayerQueue1.Peek());
             Game.GoNextTurn();
         }
     }

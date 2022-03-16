@@ -39,14 +39,14 @@ public class StackHolder : MonoBehaviour
 
         HolderObject.SetActive(false);
 
-        if(closeStack)
-        { 
+        if (closeStack)
+        {
             Destroy(Stack.GreenStack);
             Destroy(Stack.RedStack);
             Destroy(Stack.BlueStack);
             Destroy(Stack.YellowStack);
 
-            foreach(Card card in Game.PlayerQueue1.Peek().Hand)
+            foreach (Card card in Game.PlayerQueue1.Peek().Hand)
             {
                 card.GameObject = Instantiate(Game.SCardButtonPrefab);
                 card.GameObject.GetComponent<CardAppearance>().CardValues = card;

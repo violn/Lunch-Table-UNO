@@ -12,10 +12,15 @@ public class DrawButton : MonoBehaviour
 
     public void DrawOnClick()
     {
-        GameObject card = Instantiate(Game.SCardButtonPrefab);
-        card.GetComponent<CardAppearance>().CardValues = Game.DrawDeck.Pop();
-        LogAction.LogDraw(card.GetComponent<CardAppearance>().CardValues);
-        AddCard(Game.PlayerQueue1.Peek(), card.GetComponent<CardAppearance>().CardValues, Game.SHandObject, card);
+        if (!Game.GameEnded)
+        {
+            GameObject card = Instantiate(Game.SCardButtonPrefab);
+            card.GetComponent<CardAppearance>().CardValues = Game.DrawDeck.Pop();
+            Game.ReShuffle();
+            LogAction.LogDraw(card.GetComponent<CardAppearance>().CardValues);
+            AddCard(Game.PlayerQueue1.Peek(), card.GetComponent<CardAppearance>().CardValues, Game.SHandObject, card);
+            Game.GoNextTurn();
+        }
     }
 
     public static void AddCard(Player player, Card card, GameObject playerObject, GameObject cardObject, bool skipTurn = false)
