@@ -17,7 +17,7 @@ public class LogAction : MonoBehaviour
 
     public static void LogDraw(Player player)
     {
-        s_logger.GetComponent<Text>().text = s_logger.GetComponent<Text>().text = s_logger.GetComponent<Text>().text.Insert(0, $"{player.Name} drew a card.\n");
+        s_logger.GetComponent<Text>().text = s_logger.GetComponent<Text>().text.Insert(0, $"{player.Name} drew a card.\n");
     }
 
     public static void LogDraw(Card card)
@@ -33,5 +33,10 @@ public class LogAction : MonoBehaviour
     public static void LogWinner(Player player)
     {
         s_logger.GetComponent<Text>().text = s_logger.GetComponent<Text>().text.Insert(0, $"{player.Name} is the winner.\n");
+    }
+
+    public static void Clear()
+    {
+        s_logger.GetComponent<Text>().text = "";
     }
 }

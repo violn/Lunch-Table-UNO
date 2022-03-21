@@ -16,8 +16,7 @@ public class Game : MonoBehaviour
     public static GameObject SCardButtonPrefab;
     public static GameObject SHandObject;
     public static GameObject SWinScreenObject;
-    public static bool LocalPlayerTurn;
-    public static bool GameEnded;
+    public static bool GameEnded = false;
     public GameObject CardButtonPrefab;
     public GameObject DiscardObject;
     public GameObject CardPrefab;
@@ -26,6 +25,12 @@ public class Game : MonoBehaviour
 
     void Awake()
     {
+        s_shuffleDeck.Clear();
+        PlayerQueue1.Clear();
+        PlayerQueue2.Clear();
+        DrawDeck.Clear();
+        DiscardPile.Clear();
+        GameEnded = false;
         PlayerQueue1.Enqueue(new Player("Player"));
         PlayerQueue1.Enqueue(new Player("CPU", true));
         StackHolder.HolderObject.SetActive(false);
@@ -36,6 +41,7 @@ public class Game : MonoBehaviour
 
     void Start()
     {
+        LogAction.Clear();
         for (int color = 0; color < 4; color++)
         {
             for (int value = 1; value <= 9; value++)
@@ -108,7 +114,12 @@ public class Game : MonoBehaviour
                 PlayerQueue1.Peek().Hand.Remove(card);
                 LogAction.LogPlay(PlayerQueue1.Peek(), card);
                 DeclareWinner(PlayerQueue1.Peek());
-                GoNextTurn();
+
+                if (!GameEnded)
+                {
+                    GoNextTurn();
+                }
+
                 return;
             }
 
@@ -127,7 +138,6 @@ public class Game : MonoBehaviour
                 TopCard.GetComponent<CardAppearance>().CardValues = drawnCard;
                 DiscardPile.Add(TopCard.GetComponent<CardAppearance>().CardValues);
                 LogAction.LogPlay(PlayerQueue1.Peek(), drawnCard);
-                DeclareWinner(PlayerQueue1.Peek());
             }
 
             GoNextTurn();
@@ -171,6 +181,11 @@ public class Game : MonoBehaviour
     {
         if (player.Hand.Count == 0)
         {
+            s_shuffleDeck.Clear();
+            PlayerQueue1.Clear();
+            PlayerQueue2.Clear();
+            DrawDeck.Clear();
+            DiscardPile.Clear();
             GameEnded = true;
             SWinScreenObject.SetActive(true);
             LogAction.LogWinner(player);

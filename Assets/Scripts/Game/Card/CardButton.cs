@@ -21,7 +21,11 @@ public class CardButton : MonoBehaviour
             Destroy(gameObject);
             LogAction.LogPlay(Game.PlayerQueue1.Peek(), card);
             Game.DeclareWinner(Game.PlayerQueue1.Peek());
-            Game.GoNextTurn();
+
+            if (!Game.GameEnded)
+            {
+                Game.GoNextTurn();
+            }
         }
     }
 }
