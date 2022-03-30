@@ -55,6 +55,7 @@ public class StackHolder : MonoBehaviour
 
             Open = false;
             Stacked = false;
+            DisplayedCards.Clear();
         }
     }
 }
